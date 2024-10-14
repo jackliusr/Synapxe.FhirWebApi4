@@ -1,0 +1,50 @@
+{
+  "EnableHandlerAutoRegistration": true,
+  "PublicConformanceResources": true,
+  "UseFhirController": false,
+  "SystemPlugins": {
+    "Metadata": "Conformance",
+    "Merge": true,
+    "Validate": true,
+    "CustomResources": [
+      "Synapxe.FhirWebApi4.Model.Education",
+      "Synapxe.FhirWebApi4.Data.Inventory"
+    ],
+    "OpenTelemetryPrometheusMetrics": {
+      "AspNetCoreInstrumentation": true
+    },
+    "OpenTelemetryTracing": {
+      "ServiceName": true,
+      "AspNetCoreInstrumentation": true,
+      "OtlpExporter": true
+    },
+    "Authentication": "Synapxe.FhirWebApi4.Security.HeadersAuthenticationHandler",
+    "ResourceRepositoryCache": {
+      "GlobalExpiration": "01:00:00",
+      "AllowCacheDisable": true
+    }
+  },
+  "Handlers": {
+    "Repository": {
+      "FhirDataStore<@Custom>": {
+        "ContextType": "Synapxe.FhirWebApi4.Data.FhirModelDbContext",
+        "UseSqlRelationalModels": {
+          "SearchServiceType": "Synapxe.FhirWebApi4.Data.FhirModelSearchService"
+        },
+        "UseDataMapper": [
+          "Synapxe.FhirWebApi4.Data.EducationDataMapper",
+          "Synapxe.FhirWebApi4.Data.InventoryDataMapper",
+          "Synapxe.FhirWebApi4.Data.InventoryEntityDataMapper",
+          "Synapxe.FhirWebApi4.Data.AppointmentDataMapper"
+        ],
+        "ConnectionString": "Local",
+        "AllowedInteractions": [ "Create", "Read", "Vread", "Update", "Delete", "SearchType", "OperationType", "OperationInstance" ],
+        "AcceptedTypes": [
+          "Education",
+          "Inventory",
+          "Appointment"
+        ]
+      }
+    }
+  }
+}
